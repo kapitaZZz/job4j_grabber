@@ -19,7 +19,7 @@ public class AlertRabbit {
                 props.getProperty("db.url"),
                 props.getProperty("db.username"),
                 props.getProperty("db.password")
-        )){
+        )) {
             Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
             scheduler.start();
             JobDataMap data = new JobDataMap();
