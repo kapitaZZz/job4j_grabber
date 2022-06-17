@@ -1,4 +1,4 @@
-package quartz;
+package ru.job4j.grabber.quartz;
 
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
@@ -23,7 +23,7 @@ public class AlertRabbit {
             Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
             scheduler.start();
             JobDataMap data = new JobDataMap();
-            data.put("store", connection);
+            data.put("connect", connection);
             JobDetail job = newJob(Rabbit.class)
                     .usingJobData(data)
                     .build();
