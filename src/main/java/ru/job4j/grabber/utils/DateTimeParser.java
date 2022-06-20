@@ -1,7 +1,7 @@
 package ru.job4j.grabber.utils;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
 public interface DateTimeParser {
-    ZonedDateTime parse(String time);
+    LocalDateTime parse(String time);
 }
