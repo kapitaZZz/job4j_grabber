@@ -1,5 +1,9 @@
 package ru.job4j.grabber.dto;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -47,5 +51,12 @@ public class Post {
                 + ", description='" + description + '\''
                 + ", created=" + created
                 + '}';
+    }
+
+    private String retrieveDescription(String link) throws Exception {
+        Document document = Jsoup.connect(link).get();
+        Elements element = document.getElementsByAttributeValue("class", "style-ugc");
+        description = element.text();
+        return description;
     }
 }
