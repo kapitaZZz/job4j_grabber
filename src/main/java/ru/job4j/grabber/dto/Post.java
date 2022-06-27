@@ -99,12 +99,5 @@ public class Post {
                 + ", created=" + created
                 + '}';
     }
-
-    private String retrieveDescription(String link) throws Exception {
-        Document document = Jsoup.connect(link).get();
-        Elements element = document.getElementsByAttributeValue("class", "style-ugc");
-        description = element.text();
-        return description;
-    }
 }
 

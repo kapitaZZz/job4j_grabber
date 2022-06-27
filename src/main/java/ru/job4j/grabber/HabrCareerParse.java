@@ -5,15 +5,23 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import ru.job4j.grabber.dto.Post;
 import ru.job4j.grabber.utils.HabrCareerDateTimeParser;
 
 import java.io.IOException;
 
 public class HabrCareerParse {
 
+    private Post post;
     private static final String SOURCE_LINK = "https://career.habr.com";
-
     private static final String PAGE_LINK = String.format("%s/vacancies/java_developer", SOURCE_LINK);
+
+    private String retrieveDescription(String link) throws Exception {
+        Document document = Jsoup.connect(link).get();
+        Elements element = document.getElementsByAttributeValue("class", "style-ugc");
+        post.setDescription(element.text());
+        return post.getDescription();
+    }
 
     public static void main(String[] args) throws IOException {
         for (int i = 1; i <= 5; i++) {
