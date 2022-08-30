@@ -30,15 +30,11 @@ public class HabrCareerParse implements Parse {
         return link;
     }
 
-    public static void main(String[] args) {
-
-    }
-
     @Override
     public List<Post> list(String link) throws IOException {
         List<Post> posts = new ArrayList<>();
         for (int i = 1; i <= PAGES; i++) {
-            Document document = Jsoup.connect("https://career.habr.com/vacancies/java_developer?page=" + i).get();
+            Document document = Jsoup.connect(SOURCE_LINK + i).get();
             Elements rows = document.select(".vacancy-card__inner");
             rows.forEach(row -> {
                 try {
