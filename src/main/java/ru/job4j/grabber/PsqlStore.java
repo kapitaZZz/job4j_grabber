@@ -111,12 +111,12 @@ public class PsqlStore implements Store, AutoCloseable {
     }
 
     public void createTable(Connection connection) {
-        String sql = "create table if not exists post (?, ?, ?, ?, ?), " +
-                "id serial primary key, " +
-                "title varchar(255), " +
-                "link varchar(255) unique, " +
-                "description text, " +
-                "created timestamp";
+        String sql = String.format("create table if not exists post (%s, %s, %s, %s, %s);",
+                "id serial primary key",
+                "title varchar(255)",
+                "link varchar(255) unique",
+                "description text",
+                "created timestamp");
         try (Statement statement = connection.createStatement()) {
             statement.execute(sql);
         } catch (SQLException e) {
