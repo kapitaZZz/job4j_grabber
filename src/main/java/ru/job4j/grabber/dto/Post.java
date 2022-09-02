@@ -1,9 +1,5 @@
 package ru.job4j.grabber.dto;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-
 import java.time.LocalDateTime;
 import java.util.Objects;
 
