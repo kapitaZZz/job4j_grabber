@@ -48,8 +48,10 @@ public class PsqlStore implements Store, AutoCloseable {
 
     @Override
     public void save(Post post) {
-        String sql = "insert into post(title, link, description, created) values (?, ?, ?, ?) on conflict (link) do nothing";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (PreparedStatement statement = connection.prepareStatement(
+                "insert into post(title, link, description, created) values (?, ?, ?, ?) " +
+                        "on conflict (link) do nothing")
+        ) {
             statement.setString(1, post.getTitle());
             statement.setString(2, post.getLink());
             statement.setString(3, post.getDescription());
@@ -63,8 +65,7 @@ public class PsqlStore implements Store, AutoCloseable {
     @Override
     public List<Post> getAll() {
         List<Post> posts = new ArrayList<>();
-        String sql = "select * from post";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (PreparedStatement statement = connection.prepareStatement("select * from post")) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 posts.add(getPost(resultSet));
@@ -86,12 +87,11 @@ public class PsqlStore implements Store, AutoCloseable {
 
     @Override
     public Post findById(int id) {
-        String sql = "select * from post where id=?";
         Post post = null;
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (PreparedStatement statement = connection.prepareStatement("select * from post where id=?")) {
             statement.setInt(1, id);
             ResultSet resultSet = statement.getResultSet();
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 post = getPost(resultSet);
             }
         } catch (SQLException e) {
@@ -102,7 +102,7 @@ public class PsqlStore implements Store, AutoCloseable {
 
     private static Properties getConfig() {
         Properties properties = new Properties();
-        try (InputStream inputStream = PsqlStore.class.getClassLoader().getResourceAsStream("rabbit.properties")) {
+        try (InputStream inputStream = PsqlStore.class.getClassLoader().getResourceAsStream("db.properties")) {
             properties.load(inputStream);
         } catch (IOException e) {
             e.printStackTrace();
