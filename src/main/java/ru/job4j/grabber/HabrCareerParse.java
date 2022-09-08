@@ -35,19 +35,14 @@ public class HabrCareerParse implements Parse {
         List<Post> posts = new ArrayList<>();
         for (int i = 1; i <= PAGES; i++) {
             Document document = null;
-            Elements rows = document.select(".vacancy-card__inner");
             try {
-                document = Jsoup.connect(PAGE_LINK + i).get();
+                document = Jsoup.connect(link + i).get();
+                Elements rows = document.select(".vacancy-card__inner");
+                rows.forEach(row ->
+                        posts.add(postParser(row)));
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new IllegalArgumentException();
             }
-            rows.forEach(row -> {
-                try {
-                    posts.add(postParser(row));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
         }
         return posts;
     }
@@ -67,7 +62,7 @@ public class HabrCareerParse implements Parse {
             post = new Post(
                     vacancyName,
                     link,
-                    retrieveDescription(linkElement.text()),
+                    retrieveDescription(link),
                     dateTimeParser.parse(date));
         } catch (Exception e) {
             e.printStackTrace();
